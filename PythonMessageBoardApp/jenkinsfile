@@ -6,7 +6,7 @@ pipeline {
                 script{
                     sh 'ls -lah' 
                     sh 'docker --version'
-                    sh "docker build message-boardappimage PythonMessageBoardApp/"
+                    sh "docker build message-boardappimage PythonMessageBoardApp/."
                 }
                 // Build Docker image
                 
