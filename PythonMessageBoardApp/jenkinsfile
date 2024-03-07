@@ -5,8 +5,8 @@ pipeline {
             steps {
                 script{
                     sh 'ls -lah' 
-                    sh 'docker -version'
-                    sh "docker buildx build -t message-boardappimage PythonMessageBoardApp/Dockerfile --load"
+                    sh 'docker --version'
+                    sh "docker buildx build -d message-boardappimage PythonMessageBoardApp/"
                 }
                 // Build Docker image
                 
