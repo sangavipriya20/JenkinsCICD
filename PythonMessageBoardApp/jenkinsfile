@@ -3,8 +3,11 @@ pipeline {
     stages {
         stage('Build Docker Image') {
             steps {
+                script{
+                    sh "docker build -t message-boardappimage ."
+                }
                 // Build Docker image
-                sh "docker build -t message-boardappimage ${project.basedir}/Dockerfile"
+                
             }
         }
         
