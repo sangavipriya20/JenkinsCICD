@@ -4,31 +4,32 @@ pipeline {
         stage('Build Docker Image') {
             agent {
                 docker {
-                    image 'docker:19.03.12'   
+                    image 'docker:19.03.12'
                 }
-            
-            steps {
-                
-                    // Build Docker image
-                sh "docker build -t message-boardapp ."
-                
             }
-        }}
-        stage('Run Docker Container') {
             steps {
-                script {
-                    // Run Docker container
-                    sh "docker run -d -p 5000:5000 --name app message-boardapp"
-                }
+                // Build Docker image
+                sh "docker build -t message-boardapp ."
             }
         }
+        
+        stage('Run Docker Container') {
+            agent any // Added agent directive for this stage
+            steps {
+                // Run Docker container
+                sh "docker run -d -p 5000:5000 --name app message-boardapp"
+            }
+        }
+        
         stage('Test Application') {
+            agent any // Added agent directive for this stage
             steps {
                 // Insert your test steps here. For example, a simple curl command to check if the app is up.
                 sh 'curl http://localhost:5000'
             }
         }
     }
+    
     post {
         always {
             // Cleanup: Stop and remove Docker container and image after the pipeline is done
