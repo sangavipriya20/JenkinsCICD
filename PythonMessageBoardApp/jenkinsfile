@@ -4,7 +4,8 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script{
-                    sh "docker build -t message-boardappimage ."
+                    sh 'ls -lah' 
+                    sh "docker buildx build -t message-boardappimage ."
                 }
                 // Build Docker image
                 
