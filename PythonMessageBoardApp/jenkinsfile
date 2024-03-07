@@ -1,29 +1,24 @@
 pipeline {
-    agent any
-    environment {
-        // Define Docker image name
-        IMAGE_NAME = 'flask-app'
-    }
+    agent none
     stages {
         stage('Build Docker Image') {
             agent {
                 docker {
-                    image 'docker:19.03.12'
-                    args '-v /var/run/docker.sock:/var/run/docker.sock'
+                    image 'docker:19.03.12'   
                 }
-            }
+            
             steps {
-                script {
+                
                     // Build Docker image
-                    sh "docker build -t ${IMAGE_NAME} ."
-                }
+                sh "docker build -t message-boardapp ."
+                
             }
-        }
+        }}
         stage('Run Docker Container') {
             steps {
                 script {
                     // Run Docker container
-                    sh "docker run -d -p 5000:5000 --name app ${IMAGE_NAME}"
+                    sh "docker run -d -p 5000:5000 --name app message-boardapp"
                 }
             }
         }
@@ -39,7 +34,7 @@ pipeline {
             // Cleanup: Stop and remove Docker container and image after the pipeline is done
             sh 'docker stop app || true'
             sh 'docker rm app || true'
-            sh "docker rmi ${IMAGE_NAME} || true"
+            sh "docker rmi message-boardapp || true"
         }
     }
 }
